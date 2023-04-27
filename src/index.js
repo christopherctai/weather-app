@@ -22,9 +22,16 @@ function processWeatherData(data) {
     processedWeatherData.windKph = data.current.wind_kph;
     processedWeatherData.windMph = data.current.wind_mph; 
     processedWeatherData.forecast = data.forecast;
+    processedWeatherData.locationName = data.location.name;
 
     return processedWeatherData;
 }
 
+const searchForm = document.querySelector('.search-form');
+const locationQuery = searchForm.querySelector('#search');
+searchForm.addEventListener('submit', searchLocation)
 
-getWeatherData('london').then((response) => {processWeatherData(response)});
+function searchLocation () {
+    let location = locationQuery.value;
+    console.log(getWeatherData(location).then((response) => {return processWeatherData(response)}));
+}
