@@ -32,12 +32,6 @@ body {
     gap: 10px; 
 }
 
-#forecast-container {
-    flex: 1; 
-
-    position: relative; 
-}
-
 .container {
     border: 2px solid black; 
     padding: 20px; 
@@ -79,35 +73,36 @@ body {
     color: white; 
 }
 
+#forecast-container {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px; 
+}
+
+.forecast-content {
+    grid-column: 1 / 3;
+
+    display: flex; 
+    gap: 20px; 
+    text-align: center; 
+    justify-content: center;
+    
+    padding: 20px; 
+}
+
+.forecast-navigation {
+    display: flex; 
+    align-items: center; 
+}
+
 #carousel-left, 
-#carousel-right {
-    position: absolute; 
+#carousel-right { 
     width: 40px; 
-
     cursor: pointer; 
-}
-
-#carousel-left {
-    z-index: 1;
-    top: calc(50%); 
-}
-
-#carousel-right {
-    z-index: 1;
-    top: calc(50%);
-    right: calc(1%);
 }
 
 .nav-circles {
     z-index: 1;
-
-    position: absolute; 
-    bottom: 5%; 
-    left: 0;
-    right: 0;
-    margin-left: auto; 
-    margin-right: auto; 
-    width: 87px; 
 
     display: flex; 
     gap: 10px; 
@@ -120,4 +115,8 @@ body {
     border-radius: 50%; 
 
     cursor: pointer; 
+}
+
+.selected {
+    background-color: black; 
 }
