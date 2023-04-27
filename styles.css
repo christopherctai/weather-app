@@ -33,7 +33,6 @@ body {
 }
 
 .container {
-    border: 2px solid black; 
     padding: 20px; 
 }
 
@@ -41,8 +40,7 @@ body {
     display: flex; 
     gap: 10px; 
 
-    padding: 5px; 
-    border: 1px solid black; 
+    padding: 5px;
 }
 
 .data-row.right {
@@ -65,6 +63,8 @@ body {
     background-color: white; 
     border-radius: 7px; 
     border: 1px solid black; 
+
+    cursor: pointer; 
 }
 
 .btn:hover {
