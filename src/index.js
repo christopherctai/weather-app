@@ -1,3 +1,19 @@
+
+const searchForm = document.querySelector('.search-form');
+const locationQuery = searchForm.querySelector('#search');
+searchForm.addEventListener('submit', searchLocation)
+
+async function searchLocation () {
+    try {
+        let location = locationQuery.value;
+        let data = await getWeatherData(location);
+        let processedData = processWeatherData(data);
+        console.log(processedData);
+    } catch(error) {
+        console.log(error);
+    }
+}
+
 async function getWeatherData(location) {
     try {
         let response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=812a5522c00940c58f902241232604&q=${location}&days=3`);
@@ -25,13 +41,4 @@ function processWeatherData(data) {
     processedWeatherData.locationName = data.location.name;
 
     return processedWeatherData;
-}
-
-const searchForm = document.querySelector('.search-form');
-const locationQuery = searchForm.querySelector('#search');
-searchForm.addEventListener('submit', searchLocation)
-
-function searchLocation () {
-    let location = locationQuery.value;
-    console.log(getWeatherData(location).then((response) => {return processWeatherData(response)}));
 }
