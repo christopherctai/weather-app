@@ -1,1 +1,1 @@
-console.log("hello world! Trying webpack");
+!async function(a){try{let a=await fetch("https://api.weatherapi.com/v1/forecast.json?key=812a5522c00940c58f902241232604&q=london&days=3"),o=await a.json();console.log(o)}catch(a){console.log(a)}}(),getForecastWeatherData("london");
