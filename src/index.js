@@ -8,7 +8,7 @@ async function searchLocation () {
         let location = locationQuery.value;
         let data = await getWeatherData(location);
         let processedData = processWeatherData(data);
-        console.log(processedData);
+        return processedData; 
     } catch(error) {
         console.log(error);
     }
