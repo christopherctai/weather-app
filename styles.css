@@ -52,3 +52,27 @@ body {
 .data-row.right {
     justify-content: right; 
 }
+
+.title-info {
+    display: flex; 
+    gap: 8px; 
+    align-items: center; 
+}
+
+.title {
+    font-size: 24px; 
+    font-weight: 700; 
+}
+
+.btn {
+    padding: 5px 10px; 
+    background-color: white; 
+    border-radius: 7px; 
+    border: 1px solid black; 
+}
+
+.btn:hover {
+    transition: 150ms;
+    background-color: black; 
+    color: white; 
+}
