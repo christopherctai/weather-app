@@ -23,17 +23,14 @@ body {
     display: flex; 
 }
 
-#location-data-container, 
-#other-location-data-container {
+#location-data-container-1, 
+#location-data-container-2 {
     flex: 1; 
-}
 
-#other-location-data-container {
     display: flex; 
     flex-direction: column; 
     gap: 10px; 
 }
-
 
 #forecast-container {
     flex: 1; 
