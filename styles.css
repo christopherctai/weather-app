@@ -34,6 +34,8 @@ body {
 
 #forecast-container {
     flex: 1; 
+
+    position: relative; 
 }
 
 .container {
@@ -75,4 +77,47 @@ body {
     transition: 150ms;
     background-color: black; 
     color: white; 
+}
+
+#carousel-left, 
+#carousel-right {
+    position: absolute; 
+    width: 40px; 
+
+    cursor: pointer; 
+}
+
+#carousel-left {
+    z-index: 1;
+    top: calc(50%); 
+}
+
+#carousel-right {
+    z-index: 1;
+    top: calc(50%);
+    right: calc(1%);
+}
+
+.nav-circles {
+    z-index: 1;
+
+    position: absolute; 
+    bottom: 5%; 
+    left: 0;
+    right: 0;
+    margin-left: auto; 
+    margin-right: auto; 
+    width: 87px; 
+
+    display: flex; 
+    gap: 10px; 
+}
+
+.nav-circle {
+    width: 7px; 
+    height: 7px; 
+    border: 2px solid black;
+    border-radius: 50%; 
+
+    cursor: pointer; 
 }
