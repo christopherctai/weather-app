@@ -8,6 +8,7 @@ async function searchLocation () {
         let location = locationQuery.value;
         let data = await getWeatherData(location);
         let processedData = processWeatherData(data);
+        updateDisplay(processedData);
         return processedData; 
     } catch(error) {
         console.log(error);
@@ -41,4 +42,27 @@ function processWeatherData(data) {
     processedWeatherData.locationName = data.location.name;
 
     return processedWeatherData;
+}
+
+const locationName = document.querySelector('.location-name');
+const conditionIcon = document.querySelector('.condition-icon');
+const conditionText = document.querySelector('.condition-text');
+const temperature = document.querySelector('.temperature');
+const feelsLikeTemperature = document.querySelector('.feels-like-temperature');
+const humidity = document.querySelector('.humidity');
+const wind = document.querySelector('.wind');
+
+function updateDisplayToMetric() {
+
+}
+
+function updateDisplayToImperial() {
+
+}
+
+function updateDisplay(data) {
+    locationName.textContent = data.locationName;
+    conditionIcon.src = data.conditionIcon;
+    conditionText.textContent = data.conditionText;
+    humidity.textContent = data.humidity;
 }
