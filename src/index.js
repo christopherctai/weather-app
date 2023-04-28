@@ -52,12 +52,14 @@ const feelsLikeTemperature = document.querySelector('.feels-like-temperature');
 const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
 
-function updateDisplayToMetric() {
+let isMetric = false; 
 
+function updateDisplayToMetric() {
+    isMetric = true;
 }
 
 function updateDisplayToImperial() {
-
+    isMetric = false; 
 }
 
 function updateDisplay(data) {
@@ -65,4 +67,14 @@ function updateDisplay(data) {
     conditionIcon.src = data.conditionIcon;
     conditionText.textContent = data.conditionText;
     humidity.textContent = data.humidity;
+    console.log(temperature)
+    if (isMetric) {
+        temperature.textContent = data.tempC; 
+        feelsLikeTemperature.textContent = data.feelsLikeC;
+        wind.textContent = data.windKph;
+    } else {
+        temperature.textContent = data.tempF;
+        feelsLikeTemperature.textContent = data.feelsLikeF; 
+        wind.textContent = data.windMph;
+    }
 }
