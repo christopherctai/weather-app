@@ -33,7 +33,6 @@ body {
 
     display: flex; 
     flex-direction: column; 
-    gap: 10px; 
 }
 
 .container {
@@ -70,8 +69,21 @@ input[type="text"]:focus {
 }
 
 .title,
-.location-name {
+.location-name,
+.temperature {
     font-size: 24px; 
+    font-weight: 700; 
+}
+
+.small {
+    font-size: 12px; 
+}
+
+.temperature-modifier {
+    cursor: pointer; 
+}
+
+.temperature-modifier:hover {
     font-weight: 700; 
 }
 
@@ -88,6 +100,10 @@ input[type="text"]:focus {
     transition: 150ms;
     background-color: black; 
     color: white; 
+}
+
+.icon {
+    width: 40px; 
 }
 
 #forecast-container {
