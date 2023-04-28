@@ -3,14 +3,14 @@ const searchForm = document.querySelector('.search-form');
 const locationQuery = searchForm.querySelector('#search');
 searchForm.addEventListener('submit', searchLocation);
 
-setDefaultLocation(); 
+let processedData = setDefaultLocation(); 
 
 async function setDefaultLocation() {
     try {
         let data = await getWeatherData('San Diego');
-        let processedData = processWeatherData(data);
+        processedData = processWeatherData(data);
         updateDisplay(processedData);
-        return processedData; 
+        return processedData
     } catch(error) {
         console.log(error);
     }
@@ -20,9 +20,8 @@ async function searchLocation() {
     try {
         let location = locationQuery.value;
         let data = await getWeatherData(location);
-        let processedData = processWeatherData(data);
+        processedData = processWeatherData(data);
         updateDisplay(processedData);
-        return processedData; 
     } catch(error) {
         console.log(error);
     }
@@ -67,7 +66,19 @@ const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
 const changeTemperatureButton = document.querySelector('.temperature-modifier')
 
-let isMetric = false; 
+let isMetric = false;
+
+changeTemperatureButton.addEventListener('click', () => {
+    updateDisplayUnits(processedData)
+}); 
+
+function updateDisplayUnits(processedData) {
+    if (isMetric) {
+        updateDisplayToImperial(processedData);
+    } else {
+        updateDisplayToMetric(processedData);
+    }
+}
 
 function updateDisplayToMetric(data) {
     isMetric = true;
