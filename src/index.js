@@ -131,8 +131,8 @@ function updateDisplay(data) {
 }
 
 function processForecastData(processedWeatherData) {
-    let forecastData = processedWeatherData.forecast; 
-
+    let forecastHourlyData = processedWeatherData.forecast; 
+    let forecastDailyData = processedWeatherData.forecast
 }
 
 function displayHourlyForecast() {
