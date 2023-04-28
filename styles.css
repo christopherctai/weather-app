@@ -39,6 +39,7 @@ body {
 .data-row {
     display: flex; 
     gap: 10px; 
+    align-items: center; 
 
     padding: 5px;
 }
