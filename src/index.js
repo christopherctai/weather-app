@@ -3,7 +3,27 @@ const searchForm = document.querySelector('.search-form');
 const locationQuery = searchForm.querySelector('#search');
 searchForm.addEventListener('submit', searchLocation);
 
+
+const body = document.querySelector('body'); 
+
+getGIF();
+
+function getGIF() {
+    fetch('https://api.giphy.com/v1/gifs/translate?api_key=5Sm4fMi9HFImp6QVYsjr9nIL07N1hjXy&s=rainy', {mode: 'cors'})
+    .then(function(response) {
+        return response.json()
+    }) 
+    .then(function(response) {
+        body.style.backgroundImage = `url(${response.data.images.original.url})`;
+    })
+    .catch(function(error) {
+        console.log(error)
+    });
+}
+
+
 let processedData = setDefaultLocation(); 
+
 
 async function setDefaultLocation() {
     try {
