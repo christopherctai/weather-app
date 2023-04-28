@@ -75,9 +75,9 @@ function processWeatherData(data) {
 }
 
 const locationName = document.querySelector('.location-name');
-const conditionIcon = document.querySelector('.condition-icon');
-const conditionText = document.querySelector('.condition-text');
-const temperature = document.querySelector('.temperature');
+const conditionIcon = document.querySelector('.current-condition-icon');
+const conditionText = document.querySelector('.current-condition-text');
+const temperature = document.querySelector('.temperature'); 
 const feelsLikeTemperature = document.querySelector('.feels-like-temperature');
 const lastUpdated = document.querySelector('.last-updated')
 const humidity = document.querySelector('.humidity');
@@ -127,12 +127,39 @@ function updateDisplay(data) {
     } else {
         updateDisplayToImperial(data); 
     }
-    console.log(data); 
+    processHourlyForecastData(data);
+    processDailyForecastData(data);
 }
 
-function processForecastData(processedWeatherData) {
-    let forecastHourlyData = processedWeatherData.forecast; 
-    let forecastDailyData = processedWeatherData.forecast
+function processHourlyForecastData(processedWeatherData) {
+    let forecastHourlyData = processedWeatherData.forecast.forecastday[0].hour;
+    let processedForecastHourlyData = []; 
+    for (let i = 0; i < 24; i++) {
+        let hour = {}; 
+        hour.time = `${i}:00`; 
+        hour.conditionIcon = forecastHourlyData[i].condition.icon; 
+        hour.conditionText = forecastHourlyData[i].condition.text; 
+        hour.tempC = forecastHourlyData[i].temp_c;
+        hour.tempF = forecastHourlyData[i].temp_f;
+        processedForecastHourlyData.push(hour);
+    }
+}
+
+function processDailyForecastData(processedWeatherData) {
+    let forecastDailyData = processedWeatherData.forecast.forecastday;
+    console.log(forecastDailyData);
+    let processedForecastDailyData = [];
+    for (let i = 0; i < 3; i++) {
+        let day = {}; 
+        day.lowF = forecastDailyData[i].day.mintemp_f;
+        day.highF = forecastDailyData[i].day.maxtemp_f;
+        day.lowC = forecastDailyData[i].day.mintemp_c;
+        day.highC = forecastDailyData[i].day.maxtemp_c;
+        day.conditionText = forecastDailyData[i].day.condition.text; 
+        day.conditionIcon = forecastDailyData[i].day.condition.icon;
+        processedForecastDailyData.push(day);
+    }
+    console.log(processedForecastDailyData);
 }
 
 function displayHourlyForecast() {
