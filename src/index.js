@@ -67,14 +67,13 @@ function updateDisplay(data) {
     conditionIcon.src = data.conditionIcon;
     conditionText.textContent = data.conditionText;
     humidity.textContent = data.humidity;
-    console.log(temperature)
     if (isMetric) {
-        temperature.textContent = data.tempC; 
-        feelsLikeTemperature.textContent = data.feelsLikeC;
-        wind.textContent = data.windKph;
+        temperature.textContent = `${data.tempC} C`; 
+        feelsLikeTemperature.textContent = `${data.feelsLikeC} C`;
+        wind.textContent = `${data.windKph} Kph`;
     } else {
-        temperature.textContent = data.tempF;
-        feelsLikeTemperature.textContent = data.feelsLikeF; 
-        wind.textContent = data.windMph;
+        temperature.textContent = `${data.tempF} F`;
+        feelsLikeTemperature.textContent = `${data.feelsLikeF} F`; 
+        wind.textContent = `${data.windMph} Mph`;
     }
 }
