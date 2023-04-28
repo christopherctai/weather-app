@@ -127,4 +127,41 @@ function updateDisplay(data) {
     } else {
         updateDisplayToImperial(data); 
     }
+    console.log(data); 
+}
+
+function processForecastData(processedWeatherData) {
+    let forecastData = processedWeatherData.forecast; 
+
+}
+
+function displayHourlyForecast() {
+    
+}
+
+
+function createHourlyForecast(data) {
+    let forecastContent = document.querySelector('.forecast-content');
+    for (let i = 0; i < 8; i++) {
+        forecastContent.append(createHourlyForecast(data))
+    }
+    return forecastContent;
+}
+
+
+
+function createHourlyForecastSlide(data) {
+    let time = document.createElement('div');
+    time.classList.add('time');
+    time.textContent = data.time;
+    let temperatureForecast = document.createElement('div');
+    temperatureForecast.classList.add('temperature-forecast');
+    temperatureForecast.textContent = data.temperatureForecast;
+    let icon = document.createElement('img');
+    icon.classList.add('icon');
+    icon.src = data.icon;
+    let hourlyForecastBlock = document.createElement('div');
+    hourlyForecastBlock.classList.add('hourly-forecast');
+    hourlyForecastBlock.append(time, temperatureForecast, icon);
+    return hourlyForecastBlock; 
 }
