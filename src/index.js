@@ -65,15 +65,26 @@ const feelsLikeTemperature = document.querySelector('.feels-like-temperature');
 const lastUpdated = document.querySelector('.last-updated')
 const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
+const changeTemperatureButton = document.querySelector('.temperature-modifier')
 
 let isMetric = false; 
 
-function updateDisplayToMetric() {
+function updateDisplayToMetric(data) {
     isMetric = true;
+    temperature.textContent = `${data.tempC} C`; 
+    feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeC} C`;
+    wind.textContent = `${data.windKph} Kph`;
+
+    changeTemperatureButton.textContent = 'Change to Imperial';
 }
 
-function updateDisplayToImperial() {
+function updateDisplayToImperial(data) {
     isMetric = false; 
+    temperature.textContent = `${data.tempF} F`;
+    feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeF} F`; 
+    wind.textContent = `${data.windMph} Mph`; 
+
+    changeTemperatureButton.textContent = 'Change to Metric';
 }
 
 function updateDisplay(data) {
@@ -81,14 +92,10 @@ function updateDisplay(data) {
     conditionIcon.src = data.conditionIcon;
     conditionText.textContent = data.conditionText;
     lastUpdated.textContent = `Last Updated: ${data.lastUpdated}`; 
-    humidity.textContent = data.humidity;
+    humidity.textContent = `${data.humidity}%`;
     if (isMetric) {
-        temperature.textContent = `${data.tempC} C`; 
-        feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeC} C`;
-        wind.textContent = `${data.windKph} Kph`;
+        updateDisplayToMetric(data);
     } else {
-        temperature.textContent = `${data.tempF} F`;
-        feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeF} F`; 
-        wind.textContent = `${data.windMph} Mph`; 
+        updateDisplayToImperial(data); 
     }
 }
