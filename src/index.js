@@ -1,9 +1,22 @@
 
 const searchForm = document.querySelector('.search-form');
 const locationQuery = searchForm.querySelector('#search');
-searchForm.addEventListener('submit', searchLocation)
+searchForm.addEventListener('submit', searchLocation);
 
-async function searchLocation () {
+setDefaultLocation(); 
+
+async function setDefaultLocation() {
+    try {
+        let data = await getWeatherData('San Diego');
+        let processedData = processWeatherData(data);
+        updateDisplay(processedData);
+        return processedData; 
+    } catch(error) {
+        console.log(error);
+    }
+}
+
+async function searchLocation() {
     try {
         let location = locationQuery.value;
         let data = await getWeatherData(location);
@@ -49,6 +62,7 @@ const conditionIcon = document.querySelector('.condition-icon');
 const conditionText = document.querySelector('.condition-text');
 const temperature = document.querySelector('.temperature');
 const feelsLikeTemperature = document.querySelector('.feels-like-temperature');
+const lastUpdated = document.querySelector('.last-updated')
 const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
 
@@ -66,14 +80,15 @@ function updateDisplay(data) {
     locationName.textContent = data.locationName;
     conditionIcon.src = data.conditionIcon;
     conditionText.textContent = data.conditionText;
+    lastUpdated.textContent = `Last Updated: ${data.lastUpdated}`; 
     humidity.textContent = data.humidity;
     if (isMetric) {
         temperature.textContent = `${data.tempC} C`; 
-        feelsLikeTemperature.textContent = `${data.feelsLikeC} C`;
+        feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeC} C`;
         wind.textContent = `${data.windKph} Kph`;
     } else {
         temperature.textContent = `${data.tempF} F`;
-        feelsLikeTemperature.textContent = `${data.feelsLikeF} F`; 
-        wind.textContent = `${data.windMph} Mph`;
+        feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeF} F`; 
+        wind.textContent = `${data.windMph} Mph`; 
     }
 }
