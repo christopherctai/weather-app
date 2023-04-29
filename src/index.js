@@ -134,20 +134,27 @@ function updateDisplay(data) {
 function processHourlyForecastData(processedWeatherData) {
     let forecastHourlyData = processedWeatherData.forecast.forecastday[0].hour;
     let processedForecastHourlyData = []; 
-    for (let i = 0; i < 24; i++) {
-        let hour = {}; 
-        hour.time = `${i}:00`; 
-        hour.conditionIcon = forecastHourlyData[i].condition.icon; 
-        hour.conditionText = forecastHourlyData[i].condition.text; 
-        hour.tempC = forecastHourlyData[i].temp_c;
-        hour.tempF = forecastHourlyData[i].temp_f;
-        processedForecastHourlyData.push(hour);
+    let x = 0;
+    for (let i = 0; i < 3; i++) {
+        let hourBlock = []
+        for (let j = x; j < (x + 8); j++) {
+            let hour = {}; 
+            hour.time = `${j}:00`; 
+            hour.conditionIcon = forecastHourlyData[j].condition.icon; 
+            hour.conditionText = forecastHourlyData[j].condition.text; 
+            hour.tempC = forecastHourlyData[j].temp_c;
+            hour.tempF = forecastHourlyData[j].temp_f;
+            hourBlock.push(hour);
+        }
+        processedForecastHourlyData.push(hourBlock);
+        x += 8; 
     }
+    console.log(processedForecastHourlyData);
+    return processedForecastHourlyData;
 }
 
 function processDailyForecastData(processedWeatherData) {
     let forecastDailyData = processedWeatherData.forecast.forecastday;
-    console.log(forecastDailyData);
     let processedForecastDailyData = [];
     for (let i = 0; i < 3; i++) {
         let day = {}; 
@@ -159,36 +166,56 @@ function processDailyForecastData(processedWeatherData) {
         day.conditionIcon = forecastDailyData[i].day.condition.icon;
         processedForecastDailyData.push(day);
     }
-    console.log(processedForecastDailyData);
+    return processedForecastDailyData;
 }
 
-function displayHourlyForecast() {
-    
-}
-
-
-function createHourlyForecast(data) {
-    let forecastContent = document.querySelector('.forecast-content');
+function displayHourlyForecast(slideNumber, processedForecastHourlyData) {
+    let forecastContent = clearForecastContent();
     for (let i = 0; i < 8; i++) {
-        forecastContent.append(createHourlyForecast(data))
+        forecastContent.append(createHourlyForecastUnit(processedForecastHourlyData[slideNumber]))
     }
     return forecastContent;
 }
 
+function clearForecastContent() {
+    let forecastContent = document.querySelector('.forecast-content');
+    forecastContent.textContent = '';
+    return forecastContent;
+}
 
 
-function createHourlyForecastSlide(data) {
+function createHourlyForecast(data) {
+    
+}
+
+
+
+function createHourlyForecastUnit(data) {
+
     let time = document.createElement('div');
     time.classList.add('time');
     time.textContent = data.time;
+    
+    let conditionText = document.createElement('div');
+    conditionText.classList.add('condition');
+    conditionText.textContent = data.conditionText;
+
     let temperatureForecast = document.createElement('div');
     temperatureForecast.classList.add('temperature-forecast');
-    temperatureForecast.textContent = data.temperatureForecast;
-    let icon = document.createElement('img');
-    icon.classList.add('icon');
-    icon.src = data.icon;
+    
+    if (isMetric) {
+        temperatureForecast.textContent = data.temp_c;
+    } else {
+        temperatureForecast.textContent = data.temp_f;
+    }
+    
+    let conditionIcon = document.createElement('img');
+    conditionIcon.classList.add('icon');
+    conditionIcon.src = data.icon;
+    
     let hourlyForecastBlock = document.createElement('div');
     hourlyForecastBlock.classList.add('hourly-forecast');
     hourlyForecastBlock.append(time, temperatureForecast, icon);
+    
     return hourlyForecastBlock; 
 }
