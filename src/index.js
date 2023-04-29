@@ -74,6 +74,7 @@ function processWeatherData(data) {
     return processedWeatherData;
 }
 
+
 const locationName = document.querySelector('.location-name');
 const conditionIcon = document.querySelector('.current-condition-icon');
 const conditionText = document.querySelector('.current-condition-text');
@@ -85,6 +86,7 @@ const wind = document.querySelector('.wind');
 const changeTemperatureButton = document.querySelector('.temperature-modifier')
 
 let isMetric = false;
+let slideNumber = 0;
 
 changeTemperatureButton.addEventListener('click', () => {
     updateDisplayUnits(processedData)
@@ -99,21 +101,35 @@ function updateDisplayUnits(processedData) {
 }
 
 function updateDisplayToMetric(data) {
-    isMetric = true;
     temperature.textContent = `${data.tempC} C`; 
     feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeC} C`;
     wind.textContent = `${data.windKph} Kph`;
-
+    updateHourlyDisplayUnits(data);
     changeTemperatureButton.textContent = 'Change to Imperial';
+    isMetric = true;
 }
 
+function updateHourlyDisplayUnits(data) {
+    let hourlyTempData = document.querySelectorAll('.temperature-forecast');
+    let hourlyData = processHourlyForecastData(data);
+    if (isMetric) {
+        hourlyTempData.forEach((temp, index) => {
+        temp.textContent = `${hourlyData[slideNumber][index].tempF} F`;
+        }) 
+    } else {
+        hourlyTempData.forEach((temp, index) => {
+        temp.textContent = `${hourlyData[slideNumber][index].tempC} C`;
+        });
+    }
+} 
+
 function updateDisplayToImperial(data) {
-    isMetric = false; 
     temperature.textContent = `${data.tempF} F`;
     feelsLikeTemperature.textContent = `Feels Like ${data.feelsLikeF} F`; 
     wind.textContent = `${data.windMph} Mph`; 
-
+    updateHourlyDisplayUnits(data);
     changeTemperatureButton.textContent = 'Change to Metric';
+    isMetric = false; 
 }
 
 function updateDisplay(data) {
@@ -128,7 +144,7 @@ function updateDisplay(data) {
         updateDisplayToImperial(data); 
     }
     let processedHourlyForecastData = processHourlyForecastData(data);
-    displayHourlyForecast(0, processedHourlyForecastData); 
+    displayHourlyForecast(slideNumber, processedHourlyForecastData); 
     processDailyForecastData(data);
 }
 
@@ -184,12 +200,6 @@ function clearForecastContent() {
     forecastContent.textContent = '';
     return forecastContent;
 }
-
-
-function createHourlyForecast(data) {
-    
-}
-
 
 
 function createHourlyForecastUnit(data) {
