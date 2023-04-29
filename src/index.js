@@ -127,7 +127,8 @@ function updateDisplay(data) {
     } else {
         updateDisplayToImperial(data); 
     }
-    processHourlyForecastData(data);
+    let processedHourlyForecastData = processHourlyForecastData(data);
+    displayHourlyForecast(0, processedHourlyForecastData); 
     processDailyForecastData(data);
 }
 
@@ -163,17 +164,18 @@ function processDailyForecastData(processedWeatherData) {
         day.lowC = forecastDailyData[i].day.mintemp_c;
         day.highC = forecastDailyData[i].day.maxtemp_c;
         day.conditionText = forecastDailyData[i].day.condition.text; 
-        day.conditionIcon = forecastDailyData[i].day.condition.icon;
+        day.conditionIcon = forecastDailyData[i].day.condition.conditionIcon;
         processedForecastDailyData.push(day);
     }
     return processedForecastDailyData;
 }
 
 function displayHourlyForecast(slideNumber, processedForecastHourlyData) {
+    console.log(processedForecastHourlyData[slideNumber]); 
     let forecastContent = clearForecastContent();
     for (let i = 0; i < 8; i++) {
-        forecastContent.append(createHourlyForecastUnit(processedForecastHourlyData[slideNumber]))
-    }
+        forecastContent.append(createHourlyForecastUnit(processedForecastHourlyData[slideNumber][i]))
+    } 
     return forecastContent;
 }
 
@@ -204,18 +206,20 @@ function createHourlyForecastUnit(data) {
     temperatureForecast.classList.add('temperature-forecast');
     
     if (isMetric) {
-        temperatureForecast.textContent = data.temp_c;
+        temperatureForecast.textContent = `${data.tempC} C`;
     } else {
-        temperatureForecast.textContent = data.temp_f;
+        temperatureForecast.textContent = `${data.tempF} F`;
     }
+
+    console.log(temperatureForecast);
     
     let conditionIcon = document.createElement('img');
     conditionIcon.classList.add('icon');
-    conditionIcon.src = data.icon;
+    conditionIcon.src = data.conditionIcon;
     
     let hourlyForecastBlock = document.createElement('div');
     hourlyForecastBlock.classList.add('hourly-forecast');
-    hourlyForecastBlock.append(time, temperatureForecast, icon);
+    hourlyForecastBlock.append(time, temperatureForecast, conditionIcon, conditionText); 
     
-    return hourlyForecastBlock; 
+    return hourlyForecastBlock;  
 }
