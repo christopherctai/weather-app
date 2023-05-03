@@ -5,6 +5,8 @@ searchForm.addEventListener('submit', searchLocation);
 let isMetric = false;
 let slideNumber = 0;
 
+// Set up navigation 
+
 const navCircles = document.querySelectorAll('.nav-circle');
 navCircles.forEach((circle, index) => {
     circle.addEventListener('click', () => {
@@ -23,6 +25,7 @@ leftArrow.addEventListener('click', () => {
     } else {
         slideNumber -= 1; 
     }
+    selectNavCircle(slideNumber, navCircles);
     displayHourlyForecast(slideNumber, processHourlyForecastData(processedData));
 })
 rightArrow.addEventListener('click', () => {
@@ -31,10 +34,9 @@ rightArrow.addEventListener('click', () => {
     } else {
         slideNumber += 1; 
     }
+    selectNavCircle(slideNumber, navCircles);
     displayHourlyForecast(slideNumber, processHourlyForecastData(processedData));
-})
-
-function 
+}) 
 
 
 const body = document.querySelector('body'); 
