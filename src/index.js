@@ -3,6 +3,14 @@ const searchForm = document.querySelector('.search-form');
 const locationQuery = searchForm.querySelector('#search');
 searchForm.addEventListener('submit', searchLocation);
 
+const navCircles = document.querySelectorAll('.nav-circle');
+navCircles.forEach((circle, index) => {
+    circle.addEventListener('click', () => {
+        displayHourlyForecast(index, processHourlyForecastData((processedData)))
+        circle.classList.remove('selected');
+        selectNavCircle(index, navCircles); 
+    })
+})
 
 const body = document.querySelector('body'); 
 
@@ -40,6 +48,7 @@ async function searchLocation() {
         let data = await getWeatherData(location);
         processedData = processWeatherData(data);
         updateDisplay(processedData);
+        return processedData;
     } catch(error) {
         console.log(error);
     }
@@ -92,6 +101,8 @@ changeTemperatureButton.addEventListener('click', () => {
     updateDisplayUnits(processedData)
 }); 
 
+// Functions for updating units Imperial <-> Metric 
+
 function updateDisplayUnits(processedData) {
     if (isMetric) {
         updateDisplayToImperial(processedData);
@@ -132,6 +143,8 @@ function updateDisplayToImperial(data) {
     isMetric = false; 
 }
 
+// Function to update the display
+
 function updateDisplay(data) {
     locationName.textContent = data.locationName;
     conditionIcon.src = data.conditionIcon;
@@ -146,7 +159,10 @@ function updateDisplay(data) {
     let processedHourlyForecastData = processHourlyForecastData(data);
     displayHourlyForecast(slideNumber, processedHourlyForecastData); 
     processDailyForecastData(data);
+    selectNavCircle(0, navCircles);
 }
+
+// Functions to handle forecast data 
 
 function processHourlyForecastData(processedWeatherData) {
     let forecastHourlyData = processedWeatherData.forecast.forecastday[0].hour;
@@ -166,7 +182,6 @@ function processHourlyForecastData(processedWeatherData) {
         processedForecastHourlyData.push(hourBlock);
         x += 8; 
     }
-    console.log(processedForecastHourlyData);
     return processedForecastHourlyData;
 }
 
@@ -186,13 +201,21 @@ function processDailyForecastData(processedWeatherData) {
     return processedForecastDailyData;
 }
 
+
 function displayHourlyForecast(slideNumber, processedForecastHourlyData) {
-    console.log(processedForecastHourlyData[slideNumber]); 
     let forecastContent = clearForecastContent();
     for (let i = 0; i < 8; i++) {
         forecastContent.append(createHourlyForecastUnit(processedForecastHourlyData[slideNumber][i]))
     } 
     return forecastContent;
+}
+
+function selectNavCircle(index, navCircles) {
+    navCircles.forEach((circle) => {
+        circle.classList.remove('selected');
+    })
+    let navCircle = document.getElementById(index);
+    navCircle.classList.add('selected'); 
 }
 
 function clearForecastContent() {
@@ -220,8 +243,6 @@ function createHourlyForecastUnit(data) {
     } else {
         temperatureForecast.textContent = `${data.tempF} F`;
     }
-
-    console.log(temperatureForecast);
     
     let conditionIcon = document.createElement('img');
     conditionIcon.classList.add('icon');
