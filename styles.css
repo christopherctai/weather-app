@@ -8,11 +8,13 @@
 
 html {
     font-family: 'Quicksand', sans-serif; 
-    background: url() no-repeat center center fixed;
+    background: url(./images/background-image.jpg) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+
+    color: white; 
 }
 
 body {
@@ -89,27 +91,30 @@ input[type="text"]:focus {
 
 .btn {
     padding: 5px 10px; 
-    background-color: white; 
+    background-color: black; 
     border-radius: 7px; 
     border: 1px solid black; 
+    color: white; 
 
     cursor: pointer; 
 }
 
 .btn:hover {
     transition: 150ms;
-    background-color: black; 
-    color: white; 
-}
-
-.selected {
-    background-color: black; 
-    color: white; 
+    background-color: white; 
+    color: black; 
 }
 
 .icon {
-    width: 40px; 
+    width: 40px;
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(288deg) brightness(102%) contrast(102%);  
 }
+
+.selected {
+    background-color: white; 
+    color: black; 
+}
+
 
 #forecast-container {
     display: flex;
@@ -153,7 +158,7 @@ input[type="text"]:focus {
 .nav-circle {
     width: 7px; 
     height: 7px; 
-    border: 2px solid black;
+    border: 2px solid white;
     border-radius: 50%; 
 
     cursor: pointer; 
