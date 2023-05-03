@@ -7,6 +7,32 @@ let slideNumber = 0;
 
 // Set up navigation 
 
+const dailyButton = document.querySelector('.daily');
+const hourlyButton = document.querySelector('.hourly'); 
+const carousel = document.querySelector('.carousel');
+
+dailyButton.addEventListener('click', () => {
+    changeToDaily();
+})
+
+hourlyButton.addEventListener('click', () => {
+    changeToHourly();
+})
+
+function changeToDaily() {
+    displayDailyForecast(processDailyForecastData(processedData));
+    dailyButton.classList.add('selected');
+    hourlyButton.classList.remove('selected');
+    carousel.classList.add('hidden');
+}
+
+function changeToHourly() {
+    displayHourlyForecast(0, processHourlyForecastData(processedData))
+    hourlyButton.classList.add('selected'); 
+    dailyButton.classList.remove('selected'); 
+    carousel.classList.remove('hidden'); 
+}
+
 const navCircles = document.querySelectorAll('.nav-circle');
 navCircles.forEach((circle, index) => {
     circle.addEventListener('click', () => {
@@ -16,6 +42,14 @@ navCircles.forEach((circle, index) => {
         selectNavCircle(slideNumber, navCircles); 
     })
 })
+
+function selectNavCircle(index, navCircles) {
+    navCircles.forEach((circle) => {
+        circle.classList.remove('selected');
+    })
+    let navCircle = document.getElementById(index);
+    navCircle.classList.add('selected'); 
+}
 
 const leftArrow = document.getElementById('carousel-left');
 const rightArrow = document.getElementById('carousel-right');
@@ -37,6 +71,8 @@ rightArrow.addEventListener('click', () => {
     selectNavCircle(slideNumber, navCircles);
     displayHourlyForecast(slideNumber, processHourlyForecastData(processedData));
 }) 
+
+
 
 
 const body = document.querySelector('body'); 
@@ -180,9 +216,7 @@ function updateDisplay(data) {
     } else {
         updateDisplayToImperial(data); 
     }
-    let processedHourlyForecastData = processHourlyForecastData(data);
-    displayHourlyForecast(slideNumber, processedHourlyForecastData); 
-    processDailyForecastData(data);
+    changeToHourly();
     selectNavCircle(0, navCircles);
 }
 
@@ -214,12 +248,13 @@ function processDailyForecastData(processedWeatherData) {
     let processedForecastDailyData = [];
     for (let i = 0; i < 3; i++) {
         let day = {}; 
+        day.name = forecastDailyData[i].date; 
         day.lowF = forecastDailyData[i].day.mintemp_f;
         day.highF = forecastDailyData[i].day.maxtemp_f;
         day.lowC = forecastDailyData[i].day.mintemp_c;
         day.highC = forecastDailyData[i].day.maxtemp_c;
         day.conditionText = forecastDailyData[i].day.condition.text; 
-        day.conditionIcon = forecastDailyData[i].day.condition.conditionIcon;
+        day.conditionIcon = forecastDailyData[i].day.condition.icon; 
         processedForecastDailyData.push(day);
     }
     return processedForecastDailyData;
@@ -234,12 +269,12 @@ function displayHourlyForecast(slideNumber, processedForecastHourlyData) {
     return forecastContent;
 }
 
-function selectNavCircle(index, navCircles) {
-    navCircles.forEach((circle) => {
-        circle.classList.remove('selected');
-    })
-    let navCircle = document.getElementById(index);
-    navCircle.classList.add('selected'); 
+function displayDailyForecast(processedForecastDailyData) {
+    let forecastContent = clearForecastContent();
+    for (let i = 0; i < 3; i++) {
+        forecastContent.append(createDailyForecastUnit(processedForecastDailyData[i])); 
+    }
+    return forecastContent;
 }
 
 
@@ -249,6 +284,38 @@ function clearForecastContent() {
     return forecastContent;
 }
 
+function createDailyForecastUnit(data) {
+    let name = document.createElement('div');
+    name.classList.add('name');
+    name.textContent = data.name;
+    
+    let temperatureForecastHigh = document.createElement('div');
+    temperatureForecastHigh.classList.add('temperature-forecast');
+    let temperatureForecastLow = document.createElement('div');
+    temperatureForecastLow.classList.add('temperature-forecast');
+    
+    if (isMetric) {
+        temperatureForecastHigh.textContent = `High of ${data.highC} C`;
+        temperatureForecastLow.textContent = `Low of ${data.lowC} C`;
+    } else {
+        temperatureForecastHigh.textContent = `High of ${data.highF} F`;
+        temperatureForecastLow.textContent = `Low of ${data.lowF} F`;
+    }
+    
+    let conditionIcon = document.createElement('img');
+    conditionIcon.classList.add('icon');
+    conditionIcon.src = data.conditionIcon;
+    
+    let conditionText = document.createElement('div');
+    conditionText.classList.add('condition');
+    conditionText.textContent = data.conditionText;
+    
+    let dailyForecastBlock = document.createElement('div');
+    dailyForecastBlock.classList.add('daily-forecast');
+    dailyForecastBlock.append(name, temperatureForecastHigh, temperatureForecastLow, conditionIcon, conditionText); 
+    
+    return dailyForecastBlock;  
+}
 
 function createHourlyForecastUnit(data) {
 
