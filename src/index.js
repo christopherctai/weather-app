@@ -2,15 +2,40 @@
 const searchForm = document.querySelector('.search-form');
 const locationQuery = searchForm.querySelector('#search');
 searchForm.addEventListener('submit', searchLocation);
+let isMetric = false;
+let slideNumber = 0;
 
 const navCircles = document.querySelectorAll('.nav-circle');
 navCircles.forEach((circle, index) => {
     circle.addEventListener('click', () => {
-        displayHourlyForecast(index, processHourlyForecastData((processedData)))
+        slideNumber = index; 
+        displayHourlyForecast(slideNumber, processHourlyForecastData(processedData));
         circle.classList.remove('selected');
-        selectNavCircle(index, navCircles); 
+        selectNavCircle(slideNumber, navCircles); 
     })
 })
+
+const leftArrow = document.getElementById('carousel-left');
+const rightArrow = document.getElementById('carousel-right');
+leftArrow.addEventListener('click', () => {
+    if (slideNumber === 0) {
+        slideNumber = 2; 
+    } else {
+        slideNumber -= 1; 
+    }
+    displayHourlyForecast(slideNumber, processHourlyForecastData(processedData));
+})
+rightArrow.addEventListener('click', () => {
+    if (slideNumber === 2) {
+        slideNumber = 0;
+    } else {
+        slideNumber += 1; 
+    }
+    displayHourlyForecast(slideNumber, processHourlyForecastData(processedData));
+})
+
+function 
+
 
 const body = document.querySelector('body'); 
 
@@ -93,9 +118,6 @@ const lastUpdated = document.querySelector('.last-updated')
 const humidity = document.querySelector('.humidity');
 const wind = document.querySelector('.wind');
 const changeTemperatureButton = document.querySelector('.temperature-modifier')
-
-let isMetric = false;
-let slideNumber = 0;
 
 changeTemperatureButton.addEventListener('click', () => {
     updateDisplayUnits(processedData)
@@ -217,6 +239,7 @@ function selectNavCircle(index, navCircles) {
     let navCircle = document.getElementById(index);
     navCircle.classList.add('selected'); 
 }
+
 
 function clearForecastContent() {
     let forecastContent = document.querySelector('.forecast-content');
